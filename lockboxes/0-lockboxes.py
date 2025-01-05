@@ -46,3 +46,4 @@ def canUnlockAll(boxes):
 
     # Return True if all boxes are unlocked
     return all(unlocked)
+    
