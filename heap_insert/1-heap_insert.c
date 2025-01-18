@@ -4,7 +4,7 @@
 
 /**
  * enqueue - Adds a node to the queue for level-order traversal.
- * @queue: Array of node pointers.
+ * @queue: Array of node pointers used for BFS traversal.
  * @node: Node to add to the queue.
  * @rear: Pointer to the rear index.
  */
@@ -16,7 +16,10 @@ void enqueue(heap_t **queue, heap_t *node, int *rear)
 
 /**
  * dequeue - Removes a node from the queue.
+ * @queue: Array of node pointers used for BFS traversal.
  * @front: Pointer to the front index.
+ *
+ * Return: The dequeued node.
  */
 heap_t *dequeue(heap_t **queue, int *front)
 {
