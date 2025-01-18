@@ -36,12 +36,14 @@ heap_t *heapify_up(heap_t *node)
 	{
 		/* Swap values */
 		int temp = node->n;
+
 		node->n = node->parent->n;
 		node->parent->n = temp;
 
 		/* Move up the tree */
 		node = node->parent;
 	}
+
 	return (node);
 }
 
@@ -67,6 +69,7 @@ heap_t *heap_insert(heap_t **root, int value)
 
 	/* Level-order traversal to find insertion point */
 	enqueue(queue, *root, &rear);
+
 	while (front < rear)
 	{
 		temp = dequeue(queue, &front);
@@ -78,6 +81,7 @@ heap_t *heap_insert(heap_t **root, int value)
 			new_node = temp->left;
 			break;
 		}
+
 		enqueue(queue, temp->left, &rear);
 
 		if (!temp->right)
@@ -86,6 +90,7 @@ heap_t *heap_insert(heap_t **root, int value)
 			new_node = temp->right;
 			break;
 		}
+
 		enqueue(queue, temp->right, &rear);
 	}
 
