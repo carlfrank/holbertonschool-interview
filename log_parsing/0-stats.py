@@ -23,24 +23,24 @@ def main():
     try:
         for line in sys.stdin:
             try:
-                # Split line and extract relevant parts
-                parts = line.split()
-                if len(parts) >= 7:  # Ensure we have enough parts
-                    # Status code is the second to last element
-                    # File size is the last element
-                    status_code = int(parts[-2])
-                    file_size = int(parts[-1])
+                # Split by quotes to isolate the GET request
+                parts = line.strip().split('"')
+                if len(parts) == 3:  # Should be: [ip/date part, GET request, status/size part]
+                    status_size = parts[2].strip().split()
+                    if len(status_size) == 2:
+                        status_code = int(status_size[0])
+                        file_size = int(status_size[1])
 
-                    # Update metrics
-                    total_size += file_size
-                    if status_code in status_codes:
-                        status_codes[status_code] += 1
+                        # Update metrics
+                        total_size += file_size
+                        if status_code in status_codes:
+                            status_codes[status_code] += 1
 
-                    line_count += 1
+                        line_count += 1
 
-                    # Print stats every 10 lines
-                    if line_count % 10 == 0:
-                        print_stats(total_size, status_codes)
+                        # Print stats every 10 lines
+                        if line_count % 10 == 0:
+                            print_stats(total_size, status_codes)
 
             except (ValueError, IndexError):
                 continue
