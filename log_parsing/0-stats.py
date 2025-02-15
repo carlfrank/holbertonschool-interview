@@ -3,6 +3,7 @@
 Script that reads stdin line by line and computes metrics
 """
 import sys
+import re
 
 
 def print_stats(total_size, status_codes):
@@ -11,6 +12,19 @@ def print_stats(total_size, status_codes):
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
             print("{}: {}".format(code, status_codes[code]))
+
+
+def extract_info(line):
+    """Extract status code and file size from log line"""
+    try:
+        line = line.strip()
+        pattern = r'^.*"GET /projects/260 HTTP/1.1" (\d+) (\d+)$'
+        match = re.match(pattern, line)
+        if match:
+            return int(match.group(1)), int(match.group(2))
+    except Exception:
+        pass
+    return None, None
 
 
 def main():
@@ -22,29 +36,17 @@ def main():
 
     try:
         for line in sys.stdin:
-            try:
-                # Split by quotes to isolate the GET request
-                parts = line.strip().split('"')
-                if len(parts) == 3:  # Should be: [ip/date part, GET request, status/size part]
-                    status_size = parts[2].strip().split()
-                    if len(status_size) == 2:
-                        status_code = int(status_size[0])
-                        file_size = int(status_size[1])
-
-                        # Update metrics
-                        total_size += file_size
-                        if status_code in status_codes:
-                            status_codes[status_code] += 1
-
-                        line_count += 1
-
-                        # Print stats every 10 lines
-                        if line_count % 10 == 0:
-                            print_stats(total_size, status_codes)
-
-            except (ValueError, IndexError):
-                continue
-
+            status_code, file_size = extract_info(line)
+            
+            if file_size is not None:
+                total_size += file_size
+                if status_code in status_codes:
+                    status_codes[status_code] += 1
+                
+                line_count += 1
+                if line_count % 10 == 0:
+                    print_stats(total_size, status_codes)
+                    
     except KeyboardInterrupt:
         pass
     finally:
