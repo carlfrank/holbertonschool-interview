@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+"""
+Log parsing module that reads stdin line by line and computes metrics.
+Calculates total file size and counts occurrences of status codes from a log.
+Prints statistics after every 10 lines and/or keyboard interruption (CTRL + C).
+"""
+
 import sys
 import signal
 
