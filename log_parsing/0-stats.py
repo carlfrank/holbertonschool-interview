@@ -2,10 +2,10 @@
 """
 Reads stdin line by line and computes metrics
 """
-
 from sys import stdin
 
-if __name__ == "__main__":
+
+def main():
     total_size = 0
     status_codes = {}
     list_status_codes = [
@@ -43,6 +43,7 @@ if __name__ == "__main__":
             if status_codes[status] != 0:
                 print("{}: {}".format(status, status_codes[status]))
         raise
+
 
 if __name__ == "__main__":
     main()
