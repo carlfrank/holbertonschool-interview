@@ -4,12 +4,13 @@
 Calculates how many square units of water will be retained after it rains.
 """
 
+
 def rain(walls):
     """
     Calculate total amount of rainwater retained.
 
     Args:
-        walls (list): A list of non-negative integers representing wall heights.
+        walls (list): List of non-negative integers representing wall heights.
 
     Returns:
         int: Total units of trapped rainwater.
@@ -34,4 +35,3 @@ def rain(walls):
             total += max(0, right_max - walls[right])
 
     return total
-    
