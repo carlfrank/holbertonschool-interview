@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 
 /**
- * is_digit_string - Check if a string contains only digits
- * @s: string to check
- * Return: 1 if only digits, 0 otherwise
+ * is_digit_string - Checks if a string is composed only of digits
+ * @s: The string to check
+ * Return: 1 if all digits, 0 otherwise
  */
 int is_digit_string(char *s)
 {
@@ -20,61 +20,39 @@ int is_digit_string(char *s)
 }
 
 /**
- * _calloc - allocates memory for an array of ints
- * @nmemb: number of elements
- * @size: size of each element
- * Return: pointer to allocated memory
- */
-void *_calloc(unsigned int nmemb, unsigned int size)
-{
-    char *ptr;
-    unsigned int i;
-
-    if (nmemb == 0 || size == 0)
-        return (NULL);
-
-    ptr = malloc(nmemb * size);
-    if (ptr == NULL)
-        return (NULL);
-
-    for (i = 0; i < (nmemb * size); i++)
-        ptr[i] = 0;
-
-    return (ptr);
-}
-
-/**
- * print_result - Prints the result array as a number
- * @result: int array of the result
- * @len: length of the result array
+ * print_result - Prints the result stored in an int array
+ * @result: The result array
+ * @len: The length of the array
  */
 void print_result(int *result, int len)
 {
-    int i = 0;
+    int i = 0, started = 0;
 
-    while (i < len && result[i] == 0)
-        i++;
-
-    if (i == len)
-        putchar('0');
-    else
+    while (i < len)
     {
-        for (; i < len; i++)
+        if (result[i] != 0)
+            started = 1;
+        if (started)
             putchar(result[i] + '0');
+        i++;
     }
+
+    if (!started)
+        putchar('0');
+
     putchar('\n');
 }
 
 /**
- * main - multiplies two positive numbers
- * @argc: argument count
- * @argv: argument vector
- * Return: 0 on success, 98 on failure
+ * main - Multiplies two positive numbers passed as arguments
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: 0 on success, 98 on error
  */
 int main(int argc, char *argv[])
 {
     char *num1, *num2;
-    int len1, len2, i, j, mul, sum, carry;
+    int len1, len2, i, j, mul, sum;
     int *result;
 
     if (argc != 3 || !is_digit_string(argv[1]) || !is_digit_string(argv[2]))
@@ -87,7 +65,8 @@ int main(int argc, char *argv[])
     num2 = argv[2];
     len1 = strlen(num1);
     len2 = strlen(num2);
-    result = _calloc(len1 + len2, sizeof(int));
+
+    result = calloc(len1 + len2, sizeof(int));
     if (!result)
     {
         printf("Error\n");
@@ -99,7 +78,7 @@ int main(int argc, char *argv[])
         for (j = len2 - 1; j >= 0; j--)
         {
             mul = (num1[i] - '0') * (num2[j] - '0');
-            sum = result[i + j + 1] + mul;
+            sum = mul + result[i + j + 1];
             result[i + j + 1] = sum % 10;
             result[i + j] += sum / 10;
         }
