@@ -10,13 +10,13 @@
  */
 int is_digit_string(char *s)
 {
-    while (*s)
-    {
-        if (!isdigit(*s))
-            return (0);
-        s++;
-    }
-    return (1);
+	while (*s)
+	{
+		if (!isdigit(*s))
+			return (0);
+		s++;
+	}
+	return (1);
 }
 
 /**
@@ -26,21 +26,21 @@ int is_digit_string(char *s)
  */
 void print_result(int *result, int len)
 {
-    int i = 0, started = 0;
+	int i = 0, started = 0;
 
-    while (i < len)
-    {
-        if (result[i] != 0)
-            started = 1;
-        if (started)
-            putchar(result[i] + '0');
-        i++;
-    }
+	while (i < len)
+	{
+		if (result[i] != 0)
+			started = 1;
+		if (started)
+			_putchar(result[i] + '0');
+		i++;
+	}
 
-    if (!started)
-        putchar('0');
+	if (!started)
+		_putchar('0');
 
-    putchar('\n');
+	_putchar('\n');
 }
 
 /**
@@ -51,40 +51,40 @@ void print_result(int *result, int len)
  */
 int main(int argc, char *argv[])
 {
-    char *num1, *num2;
-    int len1, len2, i, j, mul, sum;
-    int *result;
+	char *num1, *num2;
+	int len1, len2, i, j, mul, sum;
+	int *result;
 
-    if (argc != 3 || !is_digit_string(argv[1]) || !is_digit_string(argv[2]))
-    {
-        printf("Error\n");
-        exit(98);
-    }
+	if (argc != 3 || !is_digit_string(argv[1]) || !is_digit_string(argv[2]))
+	{
+		printf("Error\n");
+		exit(98);
+	}
 
-    num1 = argv[1];
-    num2 = argv[2];
-    len1 = strlen(num1);
-    len2 = strlen(num2);
+	num1 = argv[1];
+	num2 = argv[2];
+	len1 = strlen(num1);
+	len2 = strlen(num2);
 
-    result = calloc(len1 + len2, sizeof(int));
-    if (!result)
-    {
-        printf("Error\n");
-        exit(98);
-    }
+	result = calloc(len1 + len2, sizeof(int));
+	if (!result)
+	{
+		printf("Error\n");
+		exit(98);
+	}
 
-    for (i = len1 - 1; i >= 0; i--)
-    {
-        for (j = len2 - 1; j >= 0; j--)
-        {
-            mul = (num1[i] - '0') * (num2[j] - '0');
-            sum = mul + result[i + j + 1];
-            result[i + j + 1] = sum % 10;
-            result[i + j] += sum / 10;
-        }
-    }
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			mul = (num1[i] - '0') * (num2[j] - '0');
+			sum = mul + result[i + j + 1];
+			result[i + j + 1] = sum % 10;
+			result[i + j] += sum / 10;
+		}
+	}
 
-    print_result(result, len1 + len2);
-    free(result);
-    return (0);
+	print_result(result, len1 + len2);
+	free(result);
+	return (0);
 }
