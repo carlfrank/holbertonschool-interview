@@ -44,7 +44,7 @@ List *add_node_end(List **list, char *str)
 }
 
 /**
- * add_node_begin - Add a node at the beginning of a circular doubly linked list
+ * add_node_begin - Add a node at the beginning of a circular list
  * @list: Double pointer to the head of the list
  * @str: String to duplicate and store in the new node
  *
